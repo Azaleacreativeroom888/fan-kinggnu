@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GNU WORLD — King Gnu Fan Site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #1a1a1f;
+      --bg2:      #22222a;
+      --surface:  #2a2a35;
+      --fg:       #f0f0ea;
+      --fg-dim:   #9090a0;
+      --purple:   #7B2FBE;
+      --red:      #C0392B;
+      --blue:     #1A6AE8;
+      --border:   rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'DM Sans', 'Noto Serif JP', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 56px;
+      background: rgba(26,26,31,0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.18em;
+      color: var(--fg-dim);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--fg); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 7rem 2.5rem 4rem;
+      overflow: hidden;
+    }
+
+    /* background grid */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    /* color bleed blobs */
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .blob-purple { width: 500px; height: 500px; background: var(--purple); top: -100px; right: -100px; }
+    .blob-red    { width: 340px; height: 340px; background: var(--red);    bottom: 80px;  left: -60px; }
+    .blob-blue   { width: 300px; height: 300px; background: var(--blue);   bottom: -80px; right: 120px; }
+
+    .hero-content { position: relative; z-index: 1; max-width: 820px; }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      border: 1px solid var(--border);
+      padding: 0.3em 0.9em;
+      margin-bottom: 1.8rem;
+    }
+
+    /* glitch title */
+    .glitch {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 14vw, 11rem);
+      line-height: 0.88;
+      letter-spacing: 0.02em;
+      position: relative;
+      display: inline-block;
+      color: var(--fg);
+      user-select: none;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    .glitch::before {
+      color: var(--red);
+      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+      animation: glitch-r 3.4s infinite steps(1);
+    }
+
+    .glitch::after {
+      color: var(--blue);
+      clip-path: polygon(0 55%, 100% 55%, 100% 70%, 0 70%);
+      animation: glitch-b 3.4s infinite steps(1);
+    }
+
+    @keyframes glitch-r {
+      0%,90%,100% { transform: translate(0); opacity: 0; }
+      92%          { transform: translate(-3px, 1px); opacity: 1; }
+      94%          { transform: translate(3px, -1px); opacity: 1; }
+      96%          { transform: translate(-2px, 0); opacity: 1; }
+      98%          { transform: translate(0); opacity: 0; }
+    }
+
+    @keyframes glitch-b {
+      0%,90%,100% { transform: translate(0); opacity: 0; }
+      91%          { transform: translate(3px, 0); opacity: 1; }
+      93%          { transform: translate(-3px, 2px); opacity: 1; }
+      95%          { transform: translate(2px, -1px); opacity: 1; }
+      97%          { transform: translate(0); opacity: 0; }
+    }
+
+    .hero-sub {
+      margin-top: 2.2rem;
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      font-size: 0.95rem;
+      color: var(--fg-dim);
+      max-width: 440px;
+      line-height: 2;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-cta {
+      margin-top: 2.8rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.75em 1.6em;
+      border: 1px solid;
+      transition: background 0.22s, color 0.22s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: #fff;
+    }
+    .btn-primary:hover { background: transparent; color: var(--purple); }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--fg-dim);
+    }
+    .btn-ghost:hover { border-color: var(--fg-dim); color: var(--fg); }
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.2rem;
+      left: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+
+    .scroll-hint::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, var(--fg-dim));
+      animation: drip 1.8s ease-in-out infinite;
+    }
+
+    @keyframes drip {
+      0%,100% { transform: scaleY(0.6); opacity: 0.4; }
+      50%      { transform: scaleY(1);   opacity: 1; }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2.5rem; }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 200px;
+    }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 900px;
+    }
+
+    .about-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+
+    .about-heading em {
+      font-style: normal;
+      color: var(--purple);
+    }
+
+    .about-body {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      font-size: 0.88rem;
+      color: var(--fg-dim);
+      line-height: 2.1;
+      letter-spacing: 0.04em;
+    }
+
+    .about-body p + p { margin-top: 1em; }
+
+    /* ── MEMBERS GRID ── */
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .member-card {
+      background: var(--bg);
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.22s;
+    }
+
+    .member-card:hover { background: var(--bg2); }
+
+    .member-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      opacity: 0;
+      transition: opacity 0.22s;
+    }
+
+    .member-card:nth-child(1)::before { background: var(--purple); }
+    .member-card:nth-child(2)::before { background: var(--red); }
+    .member-card:nth-child(3)::before { background: var(--blue); }
+    .member-card:nth-child(4)::before { background: var(--purple); }
+    .member-card:hover::before { opacity: 1; }
+
+    .member-role {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      margin-bottom: 0.6rem;
+    }
+
+    .member-name-ja {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      margin-bottom: 0.15rem;
+    }
+
+    .member-name-en {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.06em;
+      color: var(--fg-dim);
+    }
+
+    /* ── DISCOGRAPHY ── */
+    .disco-section { background: var(--bg); }
+
+    .disco-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+
+    .disco-item {
+      display: grid;
+      grid-template-columns: 3rem 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.18s;
+      cursor: default;
+    }
+
+    .disco-item:last-child { border-bottom: none; }
+    .disco-item:hover { background: var(--bg2); }
+
+    .disco-year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      color: var(--fg-dim);
+      text-align: right;
+    }
+
+    .disco-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    .disco-type {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.25em 0.7em;
+      border: 1px solid;
+    }
+
+    .type-album { border-color: var(--purple); color: var(--purple); }
+    .type-single { border-color: var(--blue); color: var(--blue); }
+    .type-ep { border-color: var(--red); color: var(--red); }
+
+    /* ── FANSITE NAV ── */
+    .site-nav {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+    }
+
+    .site-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .site-nav-item {
+      background: var(--bg2);
+      padding: 2.2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 140px;
+      transition: background 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .site-nav-item:hover { background: var(--surface); }
+
+    .site-nav-item::after {
+      content: '→';
+      position: absolute;
+      bottom: 1.5rem; right: 1.5rem;
+      font-size: 1rem;
+      color: var(--fg-dim);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.18s, transform 0.18s;
+    }
+
+    .site-nav-item:hover::after { opacity: 1; transform: translateX(0); }
+
+    .site-nav-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+
+    .site-nav-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .site-nav-item:nth-child(1) .site-nav-title { color: var(--purple); }
+    .site-nav-item:nth-child(2) .site-nav-title { color: var(--red); }
+    .site-nav-item:nth-child(3) .site-nav-title { color: var(--blue); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--fg-dim);
+    }
+
+    footer span em {
+      font-style: normal;
+      color: var(--purple);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 0 1.2rem; }
+      .hero { padding: 6rem 1.2rem 3rem; }
+      section { padding: 3.5rem 1.2rem; }
+      .about-inner { grid-template-columns: 1fr; gap: 1.8rem; }
+      .members-grid { grid-template-columns: 1fr 1fr; }
+      .site-nav-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.8rem; text-align: center; }
+      .scroll-hint { left: 1.2rem; }
+      .disco-item { grid-template-columns: 2.2rem 1fr auto; gap: 0.8rem; padding: 1rem 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .glitch::before, .glitch::after { animation: none; opacity: 0; }
+      .scroll-hint::before { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">GNU WORLD</span>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-blob blob-purple"></div>
+    <div class="hero-blob blob-red"></div>
+    <div class="hero-blob blob-blue"></div>
+
+    <div class="hero-content">
+      <span class="hero-eyebrow">Fan Site — GNU WORLD</span>
+      <h1 class="glitch" data-text="KING GNU">KING GNU</h1>
+      <p class="hero-sub">東京発のアートロックバンド。常田大希が率いる四人組が鳴らす、クラシックとポップとカオスの交差点。</p>
+      <div class="hero-cta">
+        <a href="blog.html" class="btn btn-primary">ブログを読む</a>
+        <a href="gallery.html" class="btn btn-ghost">ギャラリーを見る</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">scroll</div>
+  </section>
+
+  <!-- ABOUT STRIP -->
+  <section class="about-strip">
+    <div class="about-inner">
+      <div>
+        <h2 class="about-heading">混沌と<br/><em>美意識</em></h2>
+      </div>
+      <div class="about-body">
+        <p>King Gnuは2013年に東京藝術大学出身の常田大希を中心に結成。クラシック、ジャズ、ロック、R&Bをなめらかに横断するその音楽は、既存のカテゴリに収まらない。</p>
+        <p>このサイトはいちファンが運営する非公式の記録スペース。音楽の感想、イラスト、ここでしか読めない日記を置いています。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMBERS -->
+  <section class="disco-section">
+    <p class="section-label">Members</p>
+    <div class="members-grid">
+      <div class="member-card">
+        <p class="member-role">Vocal / Guitar</p>
+        <p class="member-name-ja">常田 大希</p>
+        <p class="member-name-en">Daiki Tsuneta</p>
+      </div>
+      <div class="member-card">
+        <p class="member-role">Vocal / Keyboard</p>
+        <p class="member-name-ja">井口 理</p>
+        <p class="member-name-en">Satoru Iguchi</p>
+      </div>
+      <div class="member-card">
+        <p class="member-role">Bass</p>
+        <p class="member-name-ja">新井 和輝</p>
+        <p class="member-name-en">Kazuki Arai</p>
+      </div>
+      <div class="member-card">
+        <p class="member-role">Drums</p>
+        <p class="member-name-ja">勢喜 遊</p>
+        <p class="member-name-en">Yu Seki</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCOGRAPHY -->
+  <section class="about-strip">
+    <p class="section-label">Discography</p>
+    <div class="disco-list">
+      <div class="disco-item">
+        <span class="disco-year">2017</span>
+        <span class="disco-title">Tokyo Rendez-Vous</span>
+        <span class="disco-type type-single">Single</span>
+      </div>
+      <div class="disco-item">
+        <span class="disco-year">2019</span>
+        <span class="disco-title">Sympa</span>
+        <span class="disco-type type-album">Album</span>
+      </div>
+      <div class="disco-item">
+        <span class="disco-year">2019</span>
+        <span class="disco-title">白日</span>
+        <span class="disco-type type-single">Single</span>
+      </div>
+      <div class="disco-item">
+        <span class="disco-year">2020</span>
+        <span class="disco-title">CEREMONY</span>
+        <span class="disco-type type-album">Album</span>
+      </div>
+      <div class="disco-item">
+        <span class="disco-year">2021</span>
+        <span class="disco-title">一途 / 逆夢</span>
+        <span class="disco-type type-single">Single</span>
+      </div>
+      <div class="disco-item">
+        <span class="disco-year">2022</span>
+        <span class="disco-title">LILAS</span>
+        <span class="disco-type type-album">Album</span>
+      </div>
+      <div class="disco-item">
+        <span class="disco-year">2024</span>
+        <span class="disco-title">SPECIALZ</span>
+        <span class="disco-type type-single">Single</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SITE NAV -->
+  <section class="site-nav">
+    <p class="section-label">サイトマップ</p>
+    <div class="site-nav-grid">
+      <a href="blog.html" class="site-nav-item">
+        <span class="site-nav-label">Study Journal</span>
+        <span class="site-nav-title">BLOG</span>
+      </a>
+      <a href="gallery.html" class="site-nav-item">
+        <span class="site-nav-label">Manga &amp; Illustration</span>
+        <span class="site-nav-title">GALLERY</span>
+      </a>
+      <a href="about.html" class="site-nav-item">
+        <span class="site-nav-label">This Site</span>
+        <span class="site-nav-title">ABOUT</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>GNU WORLD — <em>unofficial fan site</em></span>
+    <span>© 2025 Azalea Creative Room. Not affiliated with King Gnu or PERIMETRON.</span>
+  </footer>
+
+</body>
+</html>
