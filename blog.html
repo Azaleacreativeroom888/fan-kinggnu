@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — GNU WORLD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #1a1a1f;
+      --bg2:      #22222a;
+      --surface:  #2a2a35;
+      --fg:       #f0f0ea;
+      --fg-dim:   #9090a0;
+      --purple:   #7B2FBE;
+      --red:      #C0392B;
+      --blue:     #1A6AE8;
+      --border:   rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'DM Sans', 'Noto Serif JP', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 56px;
+      background: rgba(26,26,31,0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.18em;
+      color: var(--fg-dim);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--fg); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 6.5rem 2.5rem 3rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      gap: 2rem;
+      justify-content: space-between;
+    }
+
+    .page-header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      color: var(--fg);
+    }
+
+    .page-header-sub {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      padding-bottom: 0.5rem;
+    }
+
+    /* ── FEED ── */
+    .feed {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem 6rem;
+    }
+
+    /* each post */
+    .post {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0 1.6rem;
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .post:last-child { border-bottom: none; }
+
+    /* vertical thread line between posts */
+    .post:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 36px; /* center of date column */
+      top: calc(1.6rem + 1.1em); /* below the date text */
+      bottom: -1px;
+      width: 1px;
+      background: var(--border);
+    }
+
+    /* date column */
+    .post-date {
+      padding-top: 0.05em;
+      text-align: right;
+    }
+
+    .post-month {
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      color: var(--purple);
+      line-height: 1;
+    }
+
+    .post-day {
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      color: var(--fg-dim);
+    }
+
+    .post-year {
+      display: block;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--fg-dim);
+      opacity: 0.5;
+      margin-top: 0.2rem;
+    }
+
+    /* content column */
+    .post-body {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      font-size: 0.9rem;
+      line-height: 2;
+      letter-spacing: 0.04em;
+      color: var(--fg);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--fg-dim);
+    }
+
+    footer span em {
+      font-style: normal;
+      color: var(--purple);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .page-header { padding: 5.5rem 1.2rem 2rem; flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+      .feed { padding: 2rem 1.2rem 4rem; }
+      .post { grid-template-columns: 60px 1fr; gap: 0 1rem; }
+      .post:not(:last-child)::after { left: 27px; }
+      footer { flex-direction: column; gap: 0.6rem; text-align: center; padding: 1.5rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">GNU WORLD</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>BLOG</h1>
+    <p class="page-header-sub">Study Journal</p>
+  </header>
+
+  <!-- FEED -->
+  <main class="feed">
+
+    <article class="post">
+      <div class="post-date">
+        <span class="post-month">DEC</span>
+        <span class="post-day">18</span>
+        <span class="post-year">2025</span>
+      </div>
+      <p class="post-body">今日はSPECIALZをループしながら模写練習。常田さんの書く旋律って、どこか絵画的だと思う。聴くたびに色が見える。</p>
+    </article>
+
+    <article class="post">
+      <div class="post-date">
+        <span class="post-month">DEC</span>
+        <span class="post-day">14</span>
+        <span class="post-year">2025</span>
+      </div>
+      <p class="post-body">白日を改めて聴いた。歌詞の時制の使い方が異常に上手くて、翻訳の勉強になる。「いつかは」と「もう」の対比、英語でどう出すか。</p>
+    </article>
+
+    <article class="post">
+      <div class="post-date">
+        <span class="post-month">DEC</span>
+        <span class="post-day">09</span>
+        <span class="post-year">2025</span>
+      </div>
+      <p class="post-body">LILASを通しで聴いた。一枚のアルバムとして構成が緻密すぎる。トラック間の空気の引き方がずっと気になっている。</p>
+    </article>
+
+    <article class="post">
+      <div class="post-date">
+        <span class="post-month">NOV</span>
+        <span class="post-day">30</span>
+        <span class="post-year">2025</span>
+      </div>
+      <p class="post-body">ファンサイト用のイラスト、下書きまで完成。King Gnuの色使いを参考にしながら描くの楽しい。モノクロに赤を差すのが気持ちいい。</p>
+    </article>
+
+    <article class="post">
+      <div class="post-date">
+        <span class="post-month">NOV</span>
+        <span class="post-day">22</span>
+        <span class="post-year">2025</span>
+      </div>
+      <p class="post-body">Tokyo Rendez-Vousを初めて聴いた頃のことを思い出した。このバンドが「すごい」とわかった瞬間が確かにあった。あの感覚を絵にしたい。</p>
+    </article>
+
+    <article class="post">
+      <div class="post-date">
+        <span class="post-month">NOV</span>
+        <span class="post-day">15</span>
+        <span class="post-year">2025</span>
+      </div>
+      <p class="post-body">CEREMONYを久しぶりに。冒頭のピアノから最後まで一息で聴けてしまう。ライブで聴いたらどんな体験なんだろう。</p>
+    </article>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>GNU WORLD — <em>unofficial fan site</em></span>
+    <span>© 2025 Azalea Creative Room. Not affiliated with King Gnu or PERIMETRON.</span>
+  </footer>
+
+</body>
+</html>
