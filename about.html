@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — GNU WORLD</title>
+  <meta name="robots" content="noai, noimageai" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #1a1a1f;
+      --bg2:      #22222a;
+      --surface:  #2a2a35;
+      --fg:       #f0f0ea;
+      --fg-dim:   #9090a0;
+      --purple:   #7B2FBE;
+      --red:      #C0392B;
+      --blue:     #1A6AE8;
+      --border:   rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'DM Sans', 'Noto Serif JP', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 56px;
+      background: rgba(26,26,31,0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.18em;
+      color: var(--fg-dim);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--fg); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 6.5rem 2.5rem 3rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .page-header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .page-header-sub {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      padding-bottom: 0.5rem;
+    }
+
+    /* ── SECTIONS ── */
+    .content-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    section { padding: 4.5rem 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      margin-bottom: 2.4rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── ABOUT TEXT ── */
+    .about-text {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      font-size: 0.92rem;
+      line-height: 2.2;
+      letter-spacing: 0.04em;
+      color: var(--fg-dim);
+    }
+
+    .about-text p + p { margin-top: 1.2em; }
+
+    /* ── LINK CARDS ── */
+    .link-group { margin-bottom: 2.8rem; }
+    .link-group:last-child { margin-bottom: 0; }
+
+    .link-group-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 0.8rem;
+    }
+
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      border: 1px solid var(--border);
+    }
+
+    .link-card {
+      display: grid;
+      grid-template-columns: 2.6rem 1fr auto;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1rem 1.2rem;
+      background: var(--bg2);
+      transition: background 0.18s;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .link-card:last-child { border-bottom: none; }
+    .link-card:hover { background: var(--surface); }
+
+    .link-icon {
+      width: 2.6rem;
+      height: 2.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .link-name {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--fg);
+      margin-bottom: 0.1rem;
+    }
+
+    .link-desc {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--fg-dim);
+      letter-spacing: 0.02em;
+    }
+
+    .link-arrow {
+      font-size: 0.9rem;
+      color: var(--fg-dim);
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity 0.18s, transform 0.18s;
+    }
+
+    .link-card:hover .link-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ── CONTACT FORM ── */
+    .form-wrap {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 2.4rem 2rem;
+      position: relative;
+    }
+
+    .form-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--purple), transparent);
+    }
+
+    .form-intro {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      color: var(--fg-dim);
+      line-height: 2;
+      margin-bottom: 1.8rem;
+    }
+
+    .form-group { margin-bottom: 1.2rem; }
+
+    .form-label {
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .required { color: var(--red); font-style: normal; }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      font-family: 'DM Sans', 'Noto Serif JP', sans-serif;
+      font-size: 0.88rem;
+      padding: 0.7em 0.95em;
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--fg-dim); opacity: 0.5; }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 2px rgba(123,47,190,0.15);
+    }
+
+    .form-textarea { resize: vertical; min-height: 130px; }
+
+    .field-error {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--red);
+      margin-top: 0.35rem;
+      letter-spacing: 0.04em;
+    }
+
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.75em 1.8em;
+      background: var(--purple);
+      border: 1px solid var(--purple);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .form-submit:hover { background: transparent; color: var(--purple); }
+    .form-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .form-success {
+      background: rgba(123,47,190,0.1);
+      border: 1px solid rgba(123,47,190,0.3);
+      padding: 1rem 1.2rem;
+      font-size: 0.85rem;
+      color: var(--purple);
+      margin-bottom: 1.4rem;
+      display: none;
+    }
+
+    .form-error-global {
+      background: rgba(192,57,43,0.08);
+      border: 1px solid rgba(192,57,43,0.3);
+      padding: 0.8rem 1rem;
+      font-size: 0.8rem;
+      color: var(--red);
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      font-size: 0.78rem;
+      color: var(--fg-dim);
+      line-height: 2.1;
+      letter-spacing: 0.03em;
+      opacity: 0.7;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--fg-dim);
+    }
+
+    footer span em { font-style: normal; color: var(--purple); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .page-header { padding: 5.5rem 1.2rem 2rem; flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+      .content-wrap { padding: 0 1.2rem; }
+      section { padding: 3rem 0; }
+      .form-wrap { padding: 1.6rem 1.2rem; }
+      footer { flex-direction: column; gap: 0.6rem; text-align: center; padding: 1.5rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">GNU WORLD</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>ABOUT</h1>
+    <p class="page-header-sub">This Site</p>
+  </header>
+
+  <main>
+
+    <!-- ── このサイトについて ── -->
+    <section>
+      <div class="content-wrap">
+        <p class="section-label">このサイトについて</p>
+        <div class="about-text">
+          <p>GNU WORLDは、King Gnuのいちファンが運営する非公式のファンサイトです。音楽の感想や、聴きながら浮かんだことを日記に書き留めたり、インスピレーションを受けて描いたイラストや漫画を置いています。</p>
+          <p>King Gnuの音楽と出会ってから、自分の創作の見え方が変わりました。そのことへの感謝みたいなものが、このサイトを作った理由です。</p>
+          <p>当サイトはAzalea Creative Roomが制作・運営しています。King Gnu、PERIMETRON、および関連レーベルとは一切関係ありません。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 関連サイト ── -->
+    <section>
+      <div class="content-wrap">
+        <p class="section-label">関連サイト・創作活動</p>
+
+        <div class="link-group">
+          <p class="link-group-label">創作</p>
+          <div class="link-list">
+            <a class="link-card" href="https://azaleacreativeroom888.github.io/" target="_blank" rel="noopener">
+              <div class="link-icon">🏠</div>
+              <div>
+                <span class="link-name">Azalea Creative Room</span>
+                <span class="link-desc">創作活動のメインサイト</span>
+              </div>
+              <span class="link-arrow">→</span>
+            </a>
+            <a class="link-card" href="https://www.pixiv.net/users/105728284" target="_blank" rel="noopener">
+              <div class="link-icon">🎨</div>
+              <div>
+                <span class="link-name">Pixiv</span>
+                <span class="link-desc">イラスト・漫画を掲載</span>
+              </div>
+              <span class="link-arrow">→</span>
+            </a>
+            <a class="link-card" href="https://kakuyomu.jp/users/azalea_azalea72" target="_blank" rel="noopener">
+              <div class="link-icon">✒️</div>
+              <div>
+                <span class="link-name">カクヨム</span>
+                <span class="link-desc">オリジナル小説を掲載中</span>
+              </div>
+              <span class="link-arrow">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="link-group">
+          <p class="link-group-label">SNS</p>
+          <div class="link-list">
+            <a class="link-card" href="https://bsky.app/profile/azaleaazalea88.bsky.social" target="_blank" rel="noopener">
+              <div class="link-icon">🦋</div>
+              <div>
+                <span class="link-name">Bluesky</span>
+                <span class="link-desc">近況・日々の呟き</span>
+              </div>
+              <span class="link-arrow">→</span>
+            </a>
+            <a class="link-card" href="https://www.youtube.com/@LilyPopins0512" target="_blank" rel="noopener">
+              <div class="link-icon">🎬</div>
+              <div>
+                <span class="link-name">YouTube（リリポピ）</span>
+                <span class="link-desc">動画チャンネル</span>
+              </div>
+              <span class="link-arrow">→</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── お問い合わせ ── -->
+    <section>
+      <div class="content-wrap">
+        <p class="section-label">お問い合わせ</p>
+
+        <div class="form-wrap">
+          <p class="form-intro">ご感想・ご質問はこちらからどうぞ。<br>いただいたメッセージには、できる範囲でお返事します。</p>
+
+          <div class="form-success" id="fs-success">✦ メッセージを送信しました。ありがとうございます！</div>
+          <div class="form-error-global" id="fs-error"></div>
+
+          <form id="contact-form" action="https://formspree.io/f/maqvpvoz" method="POST">
+
+            <div class="form-group">
+              <label class="form-label" for="name">お名前</label>
+              <input class="form-input" type="text" id="name" name="name" placeholder="ハンドルネームでも可" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="email">メールアドレス <em class="required">*</em></label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="example@email.com" required />
+              <span class="field-error" id="err-email"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="message">メッセージ <em class="required">*</em></label>
+              <textarea class="form-textarea" id="message" name="message" placeholder="メッセージを入力してください…" rows="6" required></textarea>
+              <span class="field-error" id="err-message"></span>
+            </div>
+
+            <button class="form-submit" type="submit" id="submit-btn">送信する</button>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 免責事項 ── -->
+    <section>
+      <div class="content-wrap">
+        <p class="section-label">免責・著作権について</p>
+        <p class="disclaimer">
+          当サイトはKing Gnu、PERIMETRON、および関連レーベルとは無関係の非公式ファンサイトです。掲載しているイラスト・漫画・テキストは個人による非営利のファン活動として制作したものであり、原作の権利を侵害する意図はありません。問題がある場合はお問い合わせフォームよりご連絡ください。<br /><br />
+          当サイトに掲載されている画像・文章・作品について、AI学習への利用、トレース、無断転載・二次利用を禁止します。<br />
+          Please refrain from using any images, text, or works on this website for AI training, tracing, or unauthorized reproduction.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>GNU WORLD — <em>unofficial fan site</em></span>
+    <span>© 2025 Azalea Creative Room. Not affiliated with King Gnu or PERIMETRON.</span>
+  </footer>
+
+  <script>
+    const form = document.getElementById('contact-form');
+    const btn  = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = '送信中…';
+
+      document.getElementById('fs-success').style.display = 'none';
+      document.getElementById('fs-error').style.display   = 'none';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          document.getElementById('fs-success').style.display = 'block';
+          form.reset();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          const msg  = data.errors?.map(e => e.message).join(' ') || '送信に失敗しました。しばらくしてから再度お試しください。';
+          const errEl = document.getElementById('fs-error');
+          errEl.textContent = msg;
+          errEl.style.display = 'block';
+        }
+      } catch {
+        const errEl = document.getElementById('fs-error');
+        errEl.textContent = '通信エラーが発生しました。しばらくしてから再度お試しください。';
+        errEl.style.display = 'block';
+      }
+
+      btn.disabled = false;
+      btn.textContent = '送信する';
+    });
+  </script>
+
+</body>
+</html>
