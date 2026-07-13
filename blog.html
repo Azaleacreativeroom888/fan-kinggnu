@@ -190,9 +190,43 @@
       color: var(--purple);
     }
 
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px; height: 36px;
+      background: none; border: none;
+      cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 100%; height: 1px;
+      background: var(--fg-dim);
+      transition: transform 0.24s, opacity 0.24s;
+      transform-origin: center;
+    }
+    .hamburger.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .hamburger.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
-      nav { padding: 0 1.2rem; }
+      nav { padding: 0 1.2rem; position: relative; }
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 56px; left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: rgba(26,26,31,0.97);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(10px);
+        z-index: 99;
+      }
+      .nav-links.is-open { display: flex; }
+      .nav-links li { border-top: 1px solid var(--border); }
+      .nav-links a { display: block; padding: 1rem 1.5rem; font-size: 0.85rem; }
       .page-header { padding: 5.5rem 1.2rem 2rem; flex-direction: column; align-items: flex-start; gap: 0.6rem; }
       .feed { padding: 2rem 1.2rem 4rem; }
       .post { grid-template-columns: 60px 1fr; gap: 0 1rem; }
@@ -210,12 +244,16 @@
   <!-- NAV -->
   <nav>
     <a href="index.html" class="nav-logo">GNU WORLD</a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="playlist.html">Playlist</a></li>
       <li><a href="gallery.html">Gallery</a></li>
       <li><a href="about.html">About</a></li>
     </ul>
+    <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <!-- PAGE HEADER -->
@@ -226,16 +264,6 @@
 
   <!-- FEED -->
   <main class="feed">
-
-    <article class="post">
-      <div class="post-date">
-        <span class="post-month">JUL</span>
-        <span class="post-day">30</span>
-        <span class="post-year">2026</span>
-      </div>
-      <p class="post-body">インタビューとか観ると仲良さそうなのいいよね。安心する。
-      バンドが仲悪いと先行き不安になる。</p>
-    </article>
 
     <article class="post">
       <div class="post-date">
@@ -299,5 +327,21 @@
     <span>© 2025 Azalea Creative Room. Not affiliated with King Gnu or PERIMETRON.</span>
   </footer>
 
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('nav-links');
+    hamburger.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('is-open');
+      hamburger.classList.toggle('is-open', open);
+      hamburger.setAttribute('aria-expanded', String(open));
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('is-open');
+        hamburger.classList.remove('is-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
 </body>
 </html>
